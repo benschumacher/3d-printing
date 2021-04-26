@@ -4,7 +4,7 @@ diameter = 14.6;
 cutout_width = 3;
 cutout_height = 4.9;
 edge_width = 1.2;
-feet_depth = 2.3;
+feet_width = 2.3;
 feet_height = 5.1;
 
 $fn = 128;
@@ -46,16 +46,46 @@ module plug() {
     }
 }
 
-color("orange") translate([0, 0, -feet_height]) difference() {
-        cylinder(feet_height, r= radius);
-        cylinder(feet_height, r= inner_radius);
-    circum = diameter * PI;    
-    #translate([-radius, -(radius/2), 0]) cube([diameter, radius, feet_height]);
-    # rotate([0, 0, 90]) translate([-radius, -((diameter - (feet_depth * 2)) / 2), 0]) cube([diameter, diameter - (feet_depth * 2), feet_height]);
+
+module feet() {
+    translate([0, 0, -feet_height])
+    intersection() {
+        difference() {
+            union() {
+                cylinder(feet_height, r= radius);
+                cylinder(1.4, r= (radius + edge_width));
+            }
+            
+            cylinder(feet_height, r= inner_radius);
+        }
+           
+intersection() {        
+        rotate([0, 0, 45]) union() {
+            width = diameter + (2 * edge_width);
+            
+            translate([-(width / 2), -(feet_width/2), 0]) cube([width, feet_width, feet_height]);
+            rotate([0, 0, 90]) translate([-(width / 2), -(feet_width/2), 0]) cube([width, feet_width, feet_height]);
+        } 
+/*        
+        union() {
+        #cylinder(h=1.2, r=(radius + edge_width - 1.4));
+        #cylinder(h=1.2, r=(radius + edge_width - 1.0));
+        #cylinder(h=1, r=(radius + edge_width - 0.8));
+        #cylinder(h=0.8, r=(radius + edge_width - 0.6));
+        #cylinder(h=0.6, r=(radius + edge_width - 0.4));
+        #cylinder(h=0.4, r=(radius + edge_width - 0.2));
+        #cylinder(h=0.2, r=(radius + edge_width - 0.6));
+        }
+        */
+    }      
+    }
 }
 
 difference() {
-    plug();
+    union() {
+        plug();
+        color("orange") feet();
+    }
     
 
 /* difference() {
