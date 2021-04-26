@@ -53,31 +53,18 @@ module feet() {
         difference() {
             union() {
                 cylinder(feet_height, r= radius);
-                cylinder(1.4, r= (radius + edge_width));
+                cylinder(edge_width + 0.4, r1= (radius + edge_width), r2 = radius);
             }
             
             cylinder(feet_height, r= inner_radius);
         }
            
-intersection() {        
         rotate([0, 0, 45]) union() {
             width = diameter + (2 * edge_width);
             
             translate([-(width / 2), -(feet_width/2), 0]) cube([width, feet_width, feet_height]);
             rotate([0, 0, 90]) translate([-(width / 2), -(feet_width/2), 0]) cube([width, feet_width, feet_height]);
-        } 
-/*        
-        union() {
-        #cylinder(h=1.2, r=(radius + edge_width - 1.4));
-        #cylinder(h=1.2, r=(radius + edge_width - 1.0));
-        #cylinder(h=1, r=(radius + edge_width - 0.8));
-        #cylinder(h=0.8, r=(radius + edge_width - 0.6));
-        #cylinder(h=0.6, r=(radius + edge_width - 0.4));
-        #cylinder(h=0.4, r=(radius + edge_width - 0.2));
-        #cylinder(h=0.2, r=(radius + edge_width - 0.6));
-        }
-        */
-    }      
+        }       
     }
 }
 
