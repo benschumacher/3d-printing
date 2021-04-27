@@ -4,8 +4,8 @@ diameter = 14.6;
 cutout_width = 3;
 cutout_height = 4.9;
 edge_width = 1.2;
-feet_width = 2.3;
-feet_height = 5.1;
+leg_depth = 2.3;
+leg_height = 5.1;
 
 $fn = 128;
 
@@ -48,22 +48,25 @@ module plug() {
 
 
 module feet() {
-    translate([0, 0, -feet_height])
+    feet_width = edge_width * 2;
+
+    translate([0, 0, -leg_height])
     intersection() {
         difference() {
             union() {
-                cylinder(feet_height, r= radius);
-                cylinder(edge_width + 0.4, r1= (radius + edge_width), r2 = radius);
+                cylinder(leg_height, r= radius);
+                //cylinder(edge_width + 0.4, r1= (radius + edge_width), r2 = radius);
+                # translate([0, 0, feet_width / 4]) resize([diameter+(1*feet_width), diameter+(1*feet_width), (1*feet_width)]) sphere(r= (radius+feet_width));
             }
             
-            cylinder(feet_height, r= inner_radius);
+            cylinder(leg_height, r= inner_radius);
         }
            
         rotate([0, 0, 45]) union() {
             width = diameter + (2 * edge_width);
             
-            translate([-(width / 2), -(feet_width/2), 0]) cube([width, feet_width, feet_height]);
-            rotate([0, 0, 90]) translate([-(width / 2), -(feet_width/2), 0]) cube([width, feet_width, feet_height]);
+            translate([-(width / 2), -(leg_depth/2), 0]) cube([width, leg_depth, leg_height]);
+            rotate([0, 0, 90]) translate([-(width / 2), -(leg_depth/2), 0]) cube([width, leg_depth, leg_height]);
         }       
     }
 }
