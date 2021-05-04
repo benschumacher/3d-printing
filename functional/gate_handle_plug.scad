@@ -56,7 +56,7 @@ module feet() {
             union() {
                 cylinder(leg_height, r= radius);
                 //cylinder(edge_width + 0.4, r1= (radius + edge_width), r2 = radius);
-                # translate([0, 0, feet_width / 4]) resize([diameter+(1*feet_width), diameter+(1*feet_width), (1*feet_width)]) sphere(r= (radius+feet_width));
+                 translate([0, 0, feet_width / 4]) resize([diameter+(1*feet_width), diameter+(1*feet_width), (1*feet_width)]) sphere(r= (radius+feet_width));
             }
             
             cylinder(leg_height, r= inner_radius);
