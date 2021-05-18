@@ -57,7 +57,7 @@ difference() {
 
 offset = base_depth * upper_hook_multiplier;
 translate([0, offset, 0]) intersection() {
-    #translate([0, -offset, cs_height]) roundedcube([base_width, base_depth-edge_thickness, hook_height], radius=radius, apply_to="z", center=false);
+    translate([0, -offset, cs_height]) roundedcube([base_width, base_depth-edge_thickness, hook_height], radius=radius, apply_to="z", center=false);
     translate([0, 0, 0]) rotate([45,0,0]) roundedcube([base_width, hook_height+1, hook_thickness], radius=radius, apply_to="z", center=false);
 }
 
