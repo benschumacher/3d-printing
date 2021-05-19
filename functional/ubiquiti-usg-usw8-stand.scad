@@ -16,11 +16,11 @@ usw860w_height = 148;
 
 foot_diameter = 9.525;
 
-brace_stiffness = 1.;
+brace_stiffness = 1.2;
 joint_buffer = 0.3;
 
 support_depth = 12;
-support_width = 10;
+support_width = 6;
 support_height = 19;
 support_stiffness = 1.4;
 support_carveout_depth = support_depth - (support_stiffness * 2);
@@ -28,8 +28,8 @@ support_carveout_depth = support_depth - (support_stiffness * 2);
 support_rear_gap = brace_stiffness + joint_buffer;
 
 base_width = usg_width + usw860w_width + (support_width * 3);
-base_depth = max(usg_depth, usw860w_depth);
-base_height = 1.4;
+base_depth = max(usg_depth, usw860w_depth); //+ (support_stiffness * 2) + joint_buf;
+base_height = 2;
 
 echo("BASE_WIDTH=", base_width);
 echo("BASE_DEPTH=", base_depth);
@@ -101,8 +101,8 @@ module foot() {
     cylinder(10, r=(foot_diameter+joint_buffer)/2, center=false);
 }
 module feet_depressions(depression_depth = 0.4) {
-    offset_depth = (base_depth / 2) - (foot_diameter / 2) - 2;
-    offset_width = (base_width / 2) - (foot_diameter / 2) - 2;
+    offset_depth = (base_depth / 2) - (foot_diameter / 2) - support_stiffness;
+    offset_width = (base_width / 2) - (foot_diameter / 2) - support_stiffness;
     z = -10 + depression_depth;
 
     translate([base_center_x, base_center_y, z])
@@ -141,8 +141,23 @@ module support() {
 module stand() {
     difference() {
         //rounded
-        cube([base_width, base_depth, base_height], center=false, radius=4, apply_to="z");
-        feet_depressions();
+        cube([base_width, base_depth, base_height], center=false, radius=3, apply_to="z");
+        union() {
+            feet_depressions();
+
+            usg_airgap_width = usg_width;
+            usg_airgap_depth = usg_depth - (support_depth * 2);
+            usg_airgap_supports = 6;
+            translate([support_width, support_depth, 0]) 
+            for (i = [0:usg_airgap_supports - 1]) {
+                airgep_depth = (usg_airgap_depth - (support_stiffness * (usg_airgap_supports-1))) / usg_airgap_supports;
+                y_offset = i * (airgep_depth + support_stiffness);
+                echo(I=i);
+                echo(Y_OFFSET=y_offset);
+                #translate([0, y_offset, 0]) roundedcube([usg_width, airgep_depth, base_height], radius=3, apply_to="z");
+            }
+//            cube([usg_width, usg_depth - (support_depth * 2), base_height], center=false);
+        }
     }
 
     // left
@@ -160,7 +175,10 @@ module stand() {
     translate([base_width, usw860w_depth, base_height]) rotate([0, 0, 180]) support();
 }
 
-stand();
+//intersection() {
+    stand();
+//    translate([0, 0, (base_height - 0.4)]) cube([base_width, base_depth, 1.2], center=false);
+//}
 //translate([support_width + usg_width, support_stiffness + (joint_buffer/2), base_height]) usg_brace();
 //translate([support_width, 0, base_height]) usg();
 //#translate([support_width + usg_width + support_width, 0, base_height]) usw860w();
