@@ -27,8 +27,9 @@ support_carveout_depth = support_depth - (support_stiffness * 2);
 
 support_rear_gap = brace_stiffness + joint_buffer;
 
+base_buffer = (support_stiffness * 2) + joint_buffer;
 base_width = usg_width + usw860w_width + (support_width * 3);
-base_depth = max(usg_depth, usw860w_depth); //+ (support_stiffness * 2) + joint_buf;
+base_depth = max(usg_depth, usw860w_depth) + base_buffer;
 base_height = 2;
 
 echo("BASE_WIDTH=", base_width);
@@ -148,18 +149,27 @@ module stand() {
             usg_airgap_width = usg_width;
             usg_airgap_depth = usg_depth - (support_depth * 2);
             usg_airgap_supports = 6;
-            translate([support_width, support_depth, 0]) 
+            translate([support_width, base_buffer / 2 + support_depth, 0]) 
             for (i = [0:usg_airgap_supports - 1]) {
-                airgep_depth = (usg_airgap_depth - (support_stiffness * (usg_airgap_supports-1))) / usg_airgap_supports;
-                y_offset = i * (airgep_depth + support_stiffness);
-                echo(I=i);
-                echo(Y_OFFSET=y_offset);
-                #translate([0, y_offset, 0]) roundedcube([usg_width, airgep_depth, base_height], radius=3, apply_to="z");
+                airgap_depth = (usg_airgap_depth - (support_stiffness * (usg_airgap_supports-1))) / usg_airgap_supports;
+                y_offset = i * (airgap_depth + support_stiffness);
+                #translate([0, y_offset, 0]) roundedcube([usg_width, airgap_depth, base_height], radius=3, apply_to="z");
+            }
+
+            usw860w_airgap_width = usw860w_width;
+            usw860w_airgap_depth = usw860w_depth - (support_depth * 2);
+            usw860w_airgap_supports = 5;
+            translate([support_width + usg_width + support_width, base_buffer / 2 + support_depth, 0])
+            for (i = [0:usw860w_airgap_supports - 1]) {
+                airgap_depth = (usw860w_airgap_depth - (support_stiffness * (usw860w_airgap_supports-1))) / usw860w_airgap_supports;
+                y_offset = i * (airgap_depth + support_stiffness);
+                #translate([0, y_offset, 0]) roundedcube([usg_width, airgap_depth, base_height], radius=3, apply_to="z");
             }
 //            cube([usg_width, usg_depth - (support_depth * 2), base_height], center=false);
         }
     }
 
+    // supports
     // left
     translate([0, 0, base_height]) support();
     translate([0, base_depth - support_depth, base_height]) support();
@@ -168,17 +178,17 @@ module stand() {
     translate([support_width*2 + usg_width, support_depth, base_height]) rotate([0, 0, 180]) support();
     translate([support_width*2 + usg_width, base_depth, base_height]) rotate([0, 0, 180]) support();
     translate([support_width + usg_width, 0, base_height]) support();
-    translate([support_width + usg_width, usw860w_depth - support_depth, 2]) support();
+    translate([support_width + usg_width, usw860w_depth + base_buffer - support_depth, 2]) support();
 
     // right
     translate([base_width, support_depth, base_height]) rotate([0, 0, 180]) support();
-    translate([base_width, usw860w_depth, base_height]) rotate([0, 0, 180]) support();
+    translate([base_width, usw860w_depth + base_buffer, base_height]) rotate([0, 0, 180]) support();
 }
 
-//intersection() {
+intersection() {
     stand();
-//    translate([0, 0, (base_height - 0.4)]) cube([base_width, base_depth, 1.2], center=false);
-//}
+//    translate([0, 0, (base_height - 0.6)]) cube([base_width, base_depth, 1.4], center=false);
+}
 //translate([support_width + usg_width, support_stiffness + (joint_buffer/2), base_height]) usg_brace();
-//translate([support_width, 0, base_height]) usg();
-//#translate([support_width + usg_width + support_width, 0, base_height]) usw860w();
+//#translate([support_width, base_buffer / 2, base_height]) usg();
+//#translate([support_width + usg_width + support_width, base_buffer / 2, base_height]) usw860w();
