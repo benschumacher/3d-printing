@@ -14,7 +14,7 @@
 // apply_to = "all"|"x"|"y"|"z"|"zmax"|"zmin"|"xmax"|"xmin"|"ymax"|"ymin"
 
 // Higher definition curves
-$fs = 0.01;
+//$fs = 0.01;
 
 module roundedcube(size = [1, 1, 1], center = false, radius = 0.5, apply_to = "all") {
 	// If single value, convert to [x, y, z] vector
