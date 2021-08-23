@@ -1,7 +1,7 @@
 hole_center = 40;
 hole_dia = 4;
-height = 20;
-stiffness = 10;
+height = 2;
+stiffness = 6;
 buffer = 0.2;
 
 hole_rad = (hole_dia / 2) + buffer;
@@ -9,7 +9,19 @@ body_rad = hole_rad + stiffness;
 
 screw_hole_fn = $preview ? 8 : 64;
 
-clip();
+if ($preview) {
+    clip();
+}
+else {
+    minkowski() {
+        clip();
+        sphere(height / 4);
+    }
+}
+
+mid_offset_x = (hole_center / 2);  // halfway between the hole
+mid_offset_y = stiffness * 0.5; // 50% offset towards y
+mid_rad = stiffness * 3 / 4; // 75% of the thickness around the hooks
 
 module clip_body() {
     mid_offset_x = hole_center / 2;  // halfway between the hole
@@ -29,9 +41,17 @@ module clip_body() {
 module clip() {
     difference() {
         clip_body();
-        // cut out the center holes
-        cylinder(r = hole_rad, h = height + buffer);
-        translate([-hole_center, 0, 0]) cylinder(r = hole_rad, h = height + buffer);
-        // cut out the hooks
+        translate([0, 0, -buffer / 2]) {
+            // cut out the holes and hooks
+            hull() {
+                cylinder(r = hole_rad, h = height + buffer);
+                translate([-mid_offset_x, mid_offset_y + body_rad, 0]) cylinder(r = body_rad, h = height + buffer);
+            }
+            hull() {
+                translate([-hole_center, 0, 0]) cylinder(r = hole_rad, h = height + buffer);
+                translate([-mid_offset_x, mid_offset_y + body_rad, 0]) cylinder(r = body_rad, h = height + buffer);
+                translate([-mid_offset_x * 1.5, mid_offset_y + body_rad, 0]) cylinder(r = body_rad, h = height + buffer);
+            }
+        }
     }
 }
