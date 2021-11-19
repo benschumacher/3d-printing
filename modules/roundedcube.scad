@@ -14,13 +14,13 @@
 // apply_to = "all"|"x"|"y"|"z"|"zmax"|"zmin"|"xmax"|"xmin"|"ymax"|"ymin"
 
 // Higher definition curves
-//$fs = 0.01;
+$fs = $preview ? $fs : 0.01;
 
 module roundedcube(size = [1, 1, 1], center = false, radius = 0.5, apply_to = "all") {
 	// If single value, convert to [x, y, z] vector
 	size = (size[0] == undef) ? [size, size, size] : size;
 
-    echo(str("roundedcube(",size,", radius=", radius, ", apply_to=",apply_to));
+    echo(str("roundedcube(", size, ", radius=", radius, ", apply_to=", apply_to));
 
 	translate_min = 0;
 	translate_xmax = size[0];

@@ -11,7 +11,8 @@ cable_diameter = 5;
 table_thickness = 20.75;
 // controls the distance between moving parts of the cable holder
 tolerance = 0.5;
-
+// model N holders side-by-side
+cable_holder_count = 2;
 
 /* [Table_tabs] */
 // adjusts the length of the tabs in mm that will hold the cable holder on to the table
@@ -28,7 +29,7 @@ grip_height = 1;
 grip_width = 4;
 
 /* [Thumbwheels] */
-//controls how tall the end thumbwheels should be in mm
+// controls how tall the end thumbwheels should be in mm
 thumbwheel_height = 5;
 
 /* [Advanced] */
@@ -57,67 +58,80 @@ plane_cut_depth = plane_cut_factor*(cable_diameter/2 + neck_thickness);
 
 preview_tab = "";
 
-rotate([0,0,0]) difference()
+rotate([0,90,0]) for (i = [0:cable_holder_count-1]) 
 {
+	y_offset = i * holder_diameter;
+	translate([0, y_offset, 0]) cable_holder();
+}
 
-	// main holder barrels and tabs
-	union()
+module cable_holder()
+{
+	difference()
 	{
-		// inner barrel
-		
-		if(show_seperate == "no")
-		{
-			InnerBarrel();
-		}
-		else
-		{
-			translate([0, holder_diameter + 5, 0]) 
-			difference()
-			{
-				InnerBarrel();
-				// cable notch
-				translate([0, -cable_diameter/2, -0.5]) cube([holder_diameter/2 + 0.5, cable_diameter, thumbwheel_height + tolerance + holder_height + tolerance + thumbwheel_height + 1]);
-				// plane slice
-				translate([plane_cut_depth, -(holder_diameter + 1)/2, -0.5]) cube([holder_diameter/2 + 0.5, holder_diameter + 1, thumbwheel_height + tolerance + holder_height + tolerance + thumbwheel_height + 1]);
-			}
-		}
-		
-		// outer holder barrel
-		highlight("Advanced_holder") difference()
-		{
-			// main body of the holder
-			translate([0,0, thumbwheel_height + tolerance]) cylinder(r = holder_diameter/2, h = holder_height);
-			// tolerance for neck
-			translate([0,0,thumbwheel_height + tolerance + -0.5]) cylinder(r = cable_diameter/2 + neck_thickness + tolerance, h = holder_height + 1);
-			// tolerance for the barrel
-			translate([0,0, thumbwheel_height + tolerance + barrel_lift_factor*holder_height-tolerance]) cylinder(r = cable_diameter/2 + neck_thickness + barrel_thickness + tolerance, h = holder_height*(1-2*barrel_lift_factor) + 2*tolerance);
-		}
-		
-		// main body holder
+		// main holder barrels and tabs
 		union()
 		{
-			// upper tab
-			highlight("Table_tabs") translate([-tab_length - holder_diameter/2, -holder_diameter/2, thumbwheel_height + tolerance + holder_height - tab_thickness]) /*rounded*/ cube([tab_length + 0.1, holder_diameter, tab_thickness], radius = tab_corner_radius, apply_to = "zmax");
-			// lower tab
-			highlight("Table_tabs") translate([-tab_length - holder_diameter/2, -holder_diameter/2, thumbwheel_height + tolerance]) cube([tab_length + 0.1, holder_diameter, tab_thickness]/*, apply_to = "zmin"*/);
-			// lower grip
-			highlight("Table_grip") translate([-tab_length - holder_diameter/2, holder_diameter/2,  thumbwheel_height + tolerance + tab_thickness]) rotate([90, 0, 0]) linear_extrude(height = holder_diameter, convexity = 10) polygon(points = [[0,0], [grip_width/2,grip_height], [grip_width,0], [grip_width,-0.1], [0,-0.1]]);
+			// inner barrel
 			
-			// body block to  cylinder
+			if(show_seperate == "no")
+			{
+				InnerBarrel();
+			}
+			else
+			{
+				translate([0, holder_diameter + 5, 0]) 
+				difference()
+				{
+					InnerBarrel();
+					// cable notch
+					translate([0, -cable_diameter/2, -0.5]) cube([holder_diameter/2 + 0.5, cable_diameter, thumbwheel_height + tolerance + holder_height + tolerance + thumbwheel_height + 1]);
+					// plane slice
+					translate([plane_cut_depth, -(holder_diameter + 1)/2, -0.5]) cube([holder_diameter/2 + 0.5, holder_diameter + 1, thumbwheel_height + tolerance + holder_height + tolerance + thumbwheel_height + 1]);
+				}
+			}
+			
+			// outer holder barrel
 			highlight("Advanced_holder") difference()
 			{
-				// main body block
-				translate([-holder_diameter/2, -holder_diameter/2, thumbwheel_height + tolerance]) cube([holder_diameter/2, holder_diameter, holder_height]);
-				// cylinder cut
-				translate([0,0, thumbwheel_height + tolerance - 0.1]) cylinder(r = holder_diameter/2, h = holder_height + 1);
+				// main body of the holder
+				translate([0,0, thumbwheel_height + tolerance]) cylinder(r = holder_diameter/2, h = holder_height);
+				// tolerance for neck
+				translate([0,0,thumbwheel_height + tolerance + -0.5]) cylinder(r = cable_diameter/2 + neck_thickness + tolerance, h = holder_height + 1);
+				// tolerance for the barrel
+				translate([0,0, thumbwheel_height + tolerance + barrel_lift_factor*holder_height-tolerance]) cylinder(r = cable_diameter/2 + neck_thickness + barrel_thickness + tolerance, h = holder_height*(1-2*barrel_lift_factor) + 2*tolerance);
+			}
+			
+			// main body holder
+			union()
+			{
+				// upper tab
+				highlight("Table_tabs") translate([-tab_length - holder_diameter/2, -holder_diameter/2, thumbwheel_height + tolerance + holder_height - tab_thickness]) /*rounded*/ cube([tab_length + 0.1, holder_diameter, tab_thickness]);
+				// lower tab
+				highlight("Table_tabs") translate([-tab_length - holder_diameter/2, -holder_diameter/2, thumbwheel_height + tolerance]) cube([tab_length + 0.1, holder_diameter, tab_thickness]);
+				// lower grip
+				highlight("Table_grip") translate([-tab_length - holder_diameter/2, holder_diameter/2,  thumbwheel_height + tolerance + tab_thickness]) rotate([90, 0, 0]) linear_extrude(height = holder_diameter, convexity = 10) polygon(points = [[0,0], [grip_width/2,grip_height], [grip_width,0], [grip_width,-0.1], [0,-0.1]]);
+				
+				// body block to  cylinder
+				highlight("Advanced_holder") difference()
+				{
+					// main body block
+					translate([-holder_diameter/2, -holder_diameter/2, thumbwheel_height + tolerance]) cube([holder_diameter/2, holder_diameter, holder_height]);
+					// cylinder cut
+					translate([0,0, thumbwheel_height + tolerance - 0.1]) cylinder(r = holder_diameter/2, h = holder_height + 1);
+				}
 			}
 		}
-	}
 
-	// cable notch
-	translate([0, -cable_diameter/2, -0.5]) cube([holder_diameter/2 + 0.5, cable_diameter, thumbwheel_height + tolerance + holder_height + tolerance + thumbwheel_height + 1]);
-	// plane slice
-	translate([plane_cut_depth, -(holder_diameter + 1)/2, -0.5]) cube([holder_diameter/2 + 0.5, holder_diameter + 1, thumbwheel_height + tolerance + holder_height + tolerance + thumbwheel_height + 1]);
+		// cable notch
+		translate([0, -cable_diameter/2, -0.5]) cube([holder_diameter/2 + 0.5, cable_diameter, thumbwheel_height + tolerance + holder_height + tolerance + thumbwheel_height + 1]);
+		// plane slice
+		translate([plane_cut_depth, -(holder_diameter + 1)/2, -0.5]) cube([holder_diameter/2 + 0.5, holder_diameter + 1, thumbwheel_height + tolerance + holder_height + tolerance + thumbwheel_height + 1]);
+		// tab notch
+		#hull() {
+			translate([-holder_diameter, 0, thumbwheel_height + tolerance]) cylinder(h=holder_height, r=(holder_diameter/3/2));
+			translate([-(holder_diameter+tab_length), -(holder_diameter/3/2), thumbwheel_height + tolerance]) cube([holder_diameter/3, holder_diameter/3, holder_height], center=false);
+		}
+	}
 }
 
 module InnerBarrel()
@@ -127,9 +141,9 @@ module InnerBarrel()
 			union()
 			{
 				// top thumbwheel
-				highlight("Thumbwheels") translate([0,0, thumbwheel_height + tolerance + holder_height+tolerance]) cylinder(r = holder_diameter/2, h = thumbwheel_height);
+				highlight("Thumbwheels") translate([0,0, thumbwheel_height + tolerance + holder_height+tolerance]) cylinder(r = holder_diameter/2 - tolerance, h = thumbwheel_height);
 				// bottom thumbwheel
-				*highlight("Thumbwheels") cylinder(r = holder_diameter/2, h = thumbwheel_height);
+				highlight("Thumbwheels") cylinder(r = holder_diameter/2 - tolerance, h = thumbwheel_height);
 				// retaining barrel
 				translate([0,0, thumbwheel_height + tolerance + barrel_lift_factor*holder_height]) cylinder(r = cable_diameter/2 + neck_thickness + barrel_thickness, h = holder_height*(1-2*barrel_lift_factor));
 				// the main barrel, or the "neck"
@@ -139,7 +153,7 @@ module InnerBarrel()
 			// The hole for the cable to go through
 			translate([0,0,-.5]) cylinder(r = cable_diameter/2, h = thumbwheel_height + tolerance + holder_height + tolerance + thumbwheel_height + 1);
 			// plane slice the bottom
-			translate([-(holder_diameter/2), -holder_diameter/2,  -0]) cube([holder_diameter,  holder_diameter, thumbwheel_height + tolerance]);
+			translate([-(holder_diameter/2), -holder_diameter/2,  -0]) cube([holder_diameter,  holder_diameter, (thumbwheel_height / 2) + tolerance]);
 		}
 }
 

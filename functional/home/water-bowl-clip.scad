@@ -7,7 +7,7 @@ buffer = 0.2;
 hole_rad = (hole_dia / 2) + buffer;
 body_rad = hole_rad + stiffness;
 
-screw_hole_fn = $preview ? 8 : 64;
+$fn = $preview ? 8 : 64;
 
 if ($preview) {
     clip();
