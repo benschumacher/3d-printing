@@ -57,7 +57,7 @@ plane_cut_depth = plane_cut_factor*(cable_diameter/2 + neck_thickness);
 
 preview_tab = "";
 
-rotate([0,0,0]) difference()
+rotate([0,90,0]) difference()
 {
 
 	// main holder barrels and tabs
@@ -129,7 +129,7 @@ module InnerBarrel()
 				// top thumbwheel
 				highlight("Thumbwheels") translate([0,0, thumbwheel_height + tolerance + holder_height+tolerance]) cylinder(r = holder_diameter/2, h = thumbwheel_height);
 				// bottom thumbwheel
-				*highlight("Thumbwheels") cylinder(r = holder_diameter/2, h = thumbwheel_height);
+				highlight("Thumbwheels") cylinder(r = holder_diameter/2, h = thumbwheel_height);
 				// retaining barrel
 				translate([0,0, thumbwheel_height + tolerance + barrel_lift_factor*holder_height]) cylinder(r = cable_diameter/2 + neck_thickness + barrel_thickness, h = holder_height*(1-2*barrel_lift_factor));
 				// the main barrel, or the "neck"
@@ -139,7 +139,7 @@ module InnerBarrel()
 			// The hole for the cable to go through
 			translate([0,0,-.5]) cylinder(r = cable_diameter/2, h = thumbwheel_height + tolerance + holder_height + tolerance + thumbwheel_height + 1);
 			// plane slice the bottom
-			translate([-(holder_diameter/2), -holder_diameter/2,  -0]) cube([holder_diameter,  holder_diameter, thumbwheel_height + tolerance]);
+			//translate([-(holder_diameter/2), -holder_diameter/2,  -0]) cube([holder_diameter,  holder_diameter, thumbwheel_height + tolerance]);
 		}
 }
 
