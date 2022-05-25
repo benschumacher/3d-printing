@@ -1,10 +1,11 @@
-hole_center = 40;
+hole_center = 39;
 hole_dia = 4;
-height = 2;
+height = 2.2;
 stiffness = 6;
 buffer = 0.2;
+minkowski_rounding = 0.5;
 
-hole_rad = (hole_dia / 2) + buffer;
+hole_rad = (hole_dia / 2) + buffer + minkowski_rounding;
 body_rad = hole_rad + stiffness;
 
 screw_hole_fn = $preview ? 8 : 64;
@@ -15,7 +16,7 @@ if ($preview) {
 else {
     minkowski() {
         clip();
-        sphere(height / 4);
+        sphere(minkowski_rounding);
     }
 }
 
@@ -50,7 +51,7 @@ module clip() {
             hull() {
                 translate([-hole_center, 0, 0]) cylinder(r = hole_rad, h = height + buffer);
                 translate([-mid_offset_x, mid_offset_y + body_rad, 0]) cylinder(r = body_rad, h = height + buffer);
-                translate([-mid_offset_x * 1.5, mid_offset_y + body_rad, 0]) cylinder(r = body_rad, h = height + buffer);
+                translate([-mid_offset_x * 1.25, mid_offset_y + body_rad, 0]) cylinder(r = body_rad, h = height + buffer);
             }
         }
     }
