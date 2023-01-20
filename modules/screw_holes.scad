@@ -205,9 +205,9 @@ module sh_cone_outer(height, radius, fn)
 module screw_hole(iso, m, L, b = 0, fn = screw_hole_fn, ext = 0)
 {
   d = screw_hole_d[m];
-  dk = (len(iso) > 1) ? iso[screw_hole_dk] : screw_standard[iso][screw_hole_dk][m];
-  k = (len(iso) > 1) ? iso[screw_hole_k] :  screw_standard[iso][screw_hole_k][m];
-  a = (len(iso) > 1) ? ((len(iso) == 2) ? 180 : iso[screw_hole_a])
+  dk = is_list(iso) ? iso[screw_hole_dk] : screw_standard[iso][screw_hole_dk][m];
+  k = is_list(iso) ? iso[screw_hole_k] :  screw_standard[iso][screw_hole_k][m];
+  a = is_list(iso) ? ((len(iso) == 2) ? 180 : iso[screw_hole_a])
                      : iso >= screw_hole_begin_countersunk ? 90 : 180;
   s = d - 2 * screw_hole_thread_depth[m];
   l = L - b;
