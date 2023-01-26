@@ -5,10 +5,10 @@ inner_diameter = 17.4;
 inner_rad = inner_diameter / 2;
 inner_height = height;
 
-outer_diameter = 24.7;
+outer_diameter = 25;
 outer_rad = outer_diameter / 2;
 
-buffer = 0.2;
+buffer = 0.4;
 buffer_rad = buffer/2;
 stiffness = 1.8;
 
@@ -45,8 +45,8 @@ module outer() {
     intersection() {
         translate([0, 0, height/2]) cylinderWithFillet(height+(stiffness*2), outer_rad+stiffness+buffer_rad, 1);
         difference() {
-            #cylinder(h=height+stiffness, r=outer_rad+stiffness+buffer_rad);
-            cylinder(h=height, r=outer_rad-buffer_rad);
+            cylinder(h=height+stiffness, r=outer_rad+stiffness+buffer_rad);
+            cylinder(h=height, r=outer_rad+buffer_rad);
         }
     }
 }
