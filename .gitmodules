@@ -1,3 +1,6 @@
 [submodule "modules/mcad"]
 	path = modules/mcad
 	url = https://github.com/openscad/MCAD.git
+[submodule "modules/BOSL2"]
+	path = modules/BOSL2
+	url = https://github.com/revarbat/BOSL2.git
