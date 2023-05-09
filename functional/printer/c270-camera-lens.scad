@@ -1,3 +1,5 @@
+use <threadlib/threadlib.scad>
+
 $fn = $preview ? $fn : 64;
 
 top_id = 16.7;
@@ -48,7 +50,7 @@ module top() {
         
         union() {
             cylinder(h=8.2, d=12);
-            #translate([0, 0, 2]) cylinder(h=3, r1=top_id/2, r2=6);
+            translate([0, 0, 2]) cylinder(h=3, r1=top_id/2, r2=6);
         }
     }
 }
