@@ -4,3 +4,12 @@
 [submodule "modules/BOSL2"]
 	path = modules/BOSL2
 	url = https://github.com/revarbat/BOSL2.git
+[submodule "modules/threadlib"]
+	path = modules/threadlib
+	url = https://github.com/adrianschlatter/threadlib.git
+[submodule "modules/scad-utils"]
+	path = modules/scad-utils
+	url = https://github.com/openscad/scad-utils.git
+[submodule "modules/list-comprehension-demos"]
+	path = modules/list-comprehension-demos
+	url = https://github.com/openscad/list-comprehension-demos.git
