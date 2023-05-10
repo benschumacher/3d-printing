@@ -3,7 +3,7 @@ use <threadlib/threadlib.scad>
 $fn = $preview ? $fn : 64;
 
 top_id = 16.7;
-top_od = top_id + 2.4;
+top_od = top_id + 2.6;
 
 module base() {
     difference() {
@@ -30,12 +30,13 @@ module base() {
 
 module top() {
     difference() {
-        cylinder(h=3, d=top_od);
-        cylinder(h=3, d=top_id);
+        cylinder(h=4.5, d=top_od);
+        //cylinder(h=4.5, d=top_id);
+        translate([0, 0, -0.2]) tap("M17x1", turns=5);
     }    
 
     difference() {
-        translate([0, 0, 2])
+        translate([0, 0, 3.5])
             union() {
                 cylinder(h=1, d=top_od);
                 translate([0, 0, 1])
@@ -49,8 +50,8 @@ module top() {
             }  
         
         union() {
-            cylinder(h=8.2, d=12);
-            translate([0, 0, 2]) cylinder(h=3, r1=top_id/2, r2=6);
+            cylinder(h=10, d=12);
+            translate([0, 0, 3.5]) cylinder(h=3, r1=top_id/2, r2=6);
         }
     }
 }
