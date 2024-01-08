@@ -39,12 +39,14 @@ module brace() {
         translate([width-1, -(tongue_depth/2+1.5)-1, brace_shelf+2]) sphere(d=2);
     }
 
+    // triangle right
     hull() {
         translate([1, -(tongue_depth/2+1.8)-1, (brace_height*2/3)+2.75]) sphere(d=2);
         translate([1, -(tongue_depth/2+1.5)-1, brace_shelf+2.75]) sphere(d=2);
-        translate([1, -1, brace_shelf+2.75]) sphere(d=2);
+        #translate([1, -(tongue_depth/2+1.5), brace_shelf+2.75]) sphere(d=2);
     }
 
+    // triangle left
     hull() {
         translate([width-1, -(tongue_depth/2+1.8)-1, (brace_height*2/3)+2.75]) sphere(d=2);
         translate([width-1, -(tongue_depth/2+1.5)-1, brace_shelf+2.75]) sphere(d=2);
