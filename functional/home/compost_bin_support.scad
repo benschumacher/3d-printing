@@ -25,37 +25,37 @@ module brace() {
 
     // brace shelf
     hull() {
-        translate([1, -(tongue_depth/2+1.5)-1, brace_shelf+2.75]) sphere(d=2);
-        translate([width-1, -(tongue_depth/2+1.5)-1, brace_shelf+2.75]) sphere(d=2);
+        translate([1, -(tongue_depth/2+3)-1, brace_shelf+2.75]) sphere(d=3);
+        translate([width-1, -(tongue_depth/2+3)-1, brace_shelf+2.75]) sphere(d=3);
         translate([1, (tongue_depth/6), brace_shelf+2.75]) sphere(d=3);
         translate([width-1, (tongue_depth/6), brace_shelf+2.75]) sphere(d=3);
     }
 
     // back
     hull() {
-        translate([1, -(tongue_depth/2+1.8)-1, (brace_height*2/3)+2.75]) sphere(d=2);
-        translate([width-1, -(tongue_depth/2+1.8)-1, (brace_height*2/3)+2.75]) sphere(d=2);
-        translate([1, -(tongue_depth/2+1.5)-1, brace_shelf+2]) sphere(d=2);
-        translate([width-1, -(tongue_depth/2+1.5)-1, brace_shelf+2]) sphere(d=2);
+        translate([1, -(tongue_depth/2+3.2)-1, (brace_height*2/3)+2.75]) sphere(d=2);
+        translate([width-1, -(tongue_depth/2+3.2)-1, (brace_height*2/3)+2.75]) sphere(d=2);
+        translate([1, -(tongue_depth/2+3)-1, brace_shelf+2]) sphere(d=2);
+        translate([width-1, -(tongue_depth/2+3)-1, brace_shelf+2]) sphere(d=2);
     }
 
     // triangle right
     hull() {
-        translate([1, -(tongue_depth/2+1.8)-1, (brace_height*2/3)+2.75]) sphere(d=2);
-        translate([1, -(tongue_depth/2+1.5)-1, brace_shelf+2.75]) sphere(d=2);
-        #translate([1, -(tongue_depth/2+1.5), brace_shelf+2.75]) sphere(d=2);
+        translate([1, -(tongue_depth/2+3.2)-1, (brace_height*2/3)+2.75]) sphere(d=2);
+        translate([1, -(tongue_depth/2+3)-1, brace_shelf+2.75]) sphere(d=2);
+        #translate([1, -(tongue_depth/2+3), brace_shelf+2.75]) sphere(d=2);
     }
 
     // triangle left
     hull() {
-        translate([width-1, -(tongue_depth/2+1.8)-1, (brace_height*2/3)+2.75]) sphere(d=2);
-        translate([width-1, -(tongue_depth/2+1.5)-1, brace_shelf+2.75]) sphere(d=2);
-        translate([width-1, -(tongue_depth/2+1.5), brace_shelf+2.75]) sphere(d=2);
+        translate([width-1, -(tongue_depth/2+3.2)-1, (brace_height*2/3)+2.75]) sphere(d=2);
+#        translate([width-1, -(tongue_depth/2+3)-1, brace_shelf+2.75]) sphere(d=2);
+        translate([width-1, -(tongue_depth/2+2.5), brace_shelf+2.75]) sphere(d=2);
     }
 
     // nub
     hull() {
-        translate([width-1, -2.25, brace_shelf+3.75]) sphere(d=4);
+        translate([width-1, -3.5, brace_shelf+3.75]) sphere(d=4);
         translate([1, -1, brace_shelf+3.5]) sphere(d=2);
     }
 }
