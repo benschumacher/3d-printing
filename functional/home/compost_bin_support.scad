@@ -23,44 +23,51 @@ module brace() {
         translate([0, tongue_depth, 0]) rotate([0, 90, 0]) cylinder(h=width, d=3);
     }
 
+    brace_rear_left = -(tongue_depth+1)-1;
+    brace_rear_right = -(tongue_depth+1)-2;
+
     // brace shelf
     hull() {
         // left
-        translate([width-1, -(tongue_depth/2+3)-2, brace_shelf+2.75]) sphere(d=3);
-        translate([width-1, (tongue_depth/6), brace_shelf+2.75]) sphere(d=3);
+        hull() {
+            translate([width-1, (tongue_depth/6), brace_shelf+2.75]) sphere(d=3);
+            translate([width-1, brace_rear_left, brace_shelf+2.75]) sphere(d=3);
+        }
 
         // right
-        #hull() {
-            translate([1, (tongue_depth/6), brace_shelf+2.75]) sphere(d=3);
-            translate([1, -(tongue_depth+3)-1, brace_shelf+2.75]) sphere(d=3);
+        hull() {
+            translate([1, (tongue_depth/6), brace_shelf+2.75]) sphere(d=2);
+            translate([1, brace_rear_right, brace_shelf+2.75]) sphere(d=2);
         }
     }
 
     // back
     hull() {
         // left
-        translate([width-1, -(tongue_depth/2+3.2)-2, (brace_height*2/3)+2.75]) sphere(d=2);
-        translate([width-1, -(tongue_depth/2+3)-2, brace_shelf+2.75]) sphere(d=2);
+        hull() {
+            translate([width-1, brace_rear_left, brace_shelf+2.75]) sphere(d=2);
+            translate([width-1, brace_rear_left-3, (brace_height*2/3)+2.75]) sphere(d=2);
+        }
 
         // right
         hull() {
-            translate([1, -(tongue_depth+3.2)-1, (brace_height*2/3)+2.75]) sphere(d=2);
-            translate([1, -(tongue_depth+3)-1, brace_shelf+2.75]) sphere(d=2);
+            translate([1, brace_rear_right, brace_shelf+2.75]) sphere(d=2);
+            translate([1, brace_rear_right-3, (brace_height*2/3)+2.75]) sphere(d=2);
         }
     }
 
     // triangle left
     hull() {
-        translate([width-1, -(tongue_depth/2+3.2)-2, (brace_height*2/3)+2.75]) sphere(d=3);
-        translate([width-1, -(tongue_depth/2+3)-2, brace_shelf+2.75]) sphere(d=3);
-        translate([width-1, -(tongue_depth/2+2.5)-1, brace_shelf+2.75]) sphere(d=3);
+        translate([width-1, brace_rear_left, brace_shelf+2.75]) sphere(d=3);
+        translate([width-1, brace_rear_left+3, brace_shelf+2.75]) sphere(d=3);
+        translate([width-1, brace_rear_left-3, (brace_height*2/3)+2.75]) sphere(d=3);
     }
 
     // triangle right
     hull() {
-        translate([1, -(tongue_depth+3.2)-1, (brace_height*2/3)+2.75]) sphere(d=3);
-        translate([1, -(tongue_depth+3)-1, brace_shelf+2.75]) sphere(d=3);
-        translate([1, -(tongue_depth)-1, brace_shelf+2.75]) sphere(d=3);
+        translate([1, brace_rear_right, brace_shelf+2.75]) sphere(d=2);
+        translate([1, brace_rear_right+2, brace_shelf+2.75]) sphere(d=2);
+        translate([1, brace_rear_right-3, (brace_height*2/3)+2.75]) sphere(d=3);
     }
 
     // // nub
