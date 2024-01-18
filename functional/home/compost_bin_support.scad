@@ -24,7 +24,7 @@ module brace() {
     }
 
     brace_rear_left = -(tongue_depth+1)-1;
-    brace_rear_right = -(tongue_depth+1)-2;
+    brace_rear_right = -(tongue_depth+1)-3;
 
     // brace shelf
     hull() {
@@ -36,8 +36,8 @@ module brace() {
 
         // right
         hull() {
-            translate([1, (tongue_depth/6), brace_shelf+2.75]) sphere(d=2);
-            translate([1, brace_rear_right, brace_shelf+2.75]) sphere(d=2);
+            translate([1, (tongue_depth/6), brace_shelf+2.25]) sphere(d=2);
+            translate([1, brace_rear_right-0.5, brace_shelf+2.25]) sphere(d=2);
         }
     }
 
@@ -65,8 +65,8 @@ module brace() {
 
     // triangle right
     hull() {
-        translate([1, brace_rear_right, brace_shelf+2.75]) sphere(d=2);
-        translate([1, brace_rear_right+2, brace_shelf+2.75]) sphere(d=2);
+        translate([1, brace_rear_right, brace_shelf+2.75]) sphere(d=3);
+        translate([1, brace_rear_right+2, brace_shelf+2.75]) sphere(d=3);
         translate([1, brace_rear_right-3, (brace_height*2/3)+2.75]) sphere(d=3);
     }
 
