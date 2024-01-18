@@ -1,5 +1,5 @@
 difference() {
-    import("/Users/bschumacher/Downloads/Creality_Ender_3_PRO_-_Feet_Noise_Dampers-A.stl");
+    import("Creality_Ender_3_PRO_-_Feet_Noise_Dampers-A.stl");
     translate([-29, -9.25, 13]) rotate([180, 0, 0]) cube([58, 3, 20]);
 }
 
