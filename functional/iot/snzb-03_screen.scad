@@ -45,7 +45,7 @@ module screen() {
     translate([width+buffer, -(depth+buffer), 0]) {
         translate([0, buffer, 0]) rotate([270, 0, 0]) cylinder(r=nub_radius, h=depth);
         roundedcube([stiffness, screen_depth, screen_support_height], radius = corner_radius, apply_to="z");
-        translate([0, screen_depth/3, 0]) roundedcube([stiffness, screen_depth/3*2, screen_screen_height*1.25], radius = corner_radius);
+        translate([0, screen_depth/3-stiffness, 0]) roundedcube([stiffness, screen_depth/3*2+stiffness, screen_screen_height*1.25], radius = corner_radius);
     }
 
     // top
