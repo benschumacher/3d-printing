@@ -30,7 +30,7 @@ module screen() {
     translate([-(stiffness+buffer), 0, 0]) {
         translate([0, 0, 0]) rotate([0, 90, 0]) cylinder(r=nub_radius, h=screen_width);
         roundedcube([screen_width, stiffness, screen_support_height], radius = corner_radius, apply_to="z");
-        roundedcube([screen_width, stiffness, screen_screen_height*1.25], radius = corner_radius);
+        roundedcube([screen_width, stiffness, screen_screen_height*1.4], radius = corner_radius);
     }
 
     // right
@@ -38,14 +38,15 @@ module screen() {
     translate([-(stiffness+buffer), -(depth+buffer), 0])
     {
         roundedcube([stiffness, screen_depth, screen_support_height], radius = corner_radius, apply_to="z");        
-        translate([0, screen_depth/3*2, 0]) roundedcube([stiffness, screen_depth/3, screen_screen_height], radius = corner_radius);        
+        translate([0, screen_depth/3*2, 0]) roundedcube([stiffness, screen_depth/3, screen_screen_height*1.4], radius = corner_radius);        
     }
 
     // left
     translate([width+buffer, -(depth+buffer), 0]) {
         translate([0, buffer, 0]) rotate([270, 0, 0]) cylinder(r=nub_radius, h=depth);
         roundedcube([stiffness, screen_depth, screen_support_height], radius = corner_radius, apply_to="z");
-        translate([0, screen_depth/3-stiffness, 0]) roundedcube([stiffness, screen_depth/3*2+stiffness, screen_screen_height*1.25], radius = corner_radius);
+        translate([0, screen_depth/3-stiffness, 0]) roundedcube([stiffness, screen_depth/3*2+stiffness, screen_screen_height*1.125], radius = corner_radius);
+        translate([0, screen_depth/3*2, 0]) roundedcube([stiffness, screen_depth*0.33, screen_screen_height*1.4], radius = corner_radius);
     }
 
     // top
